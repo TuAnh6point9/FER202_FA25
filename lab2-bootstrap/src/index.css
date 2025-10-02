@@ -1,0 +1,30 @@
+body {
+  background-color: #222;
+  font-family: Arial, sans-serif;
+}
+
+.hero-section {
+  margin-bottom: 2rem;
+}
+
+.card img {
+  height: 180px;
+  object-fit: cover;
+}
+
+h3 {
+  color: #fff;
+}
+
+.booking-form .form-control, 
+.booking-form .form-select, 
+.booking-form textarea {
+  background: #444;
+  color: #fff;
+  border: none;
+}
+
+.booking-form .form-control::placeholder,
+.booking-form textarea::placeholder {
+  color: #bbb;
+}
