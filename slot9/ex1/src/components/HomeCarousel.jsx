@@ -17,18 +17,7 @@ export default function HomeCarousel() {
             alt={m.title}
             style={{ height: 420, objectFit: "cover" }}
           />
-          <Carousel.Caption
-            className="text-start"
-            style={{
-              background: "rgba(0,0,0,0.6)",
-              borderRadius: 12,
-              padding: "1rem 1.25rem",
-              maxWidth: 760,
-              color: "#fff",
-              left: 20,
-              right: "auto"
-            }}
-          >
+          <Carousel.Caption className="text-start hero-caption" style={{ left: 20, right: 'auto' }}>
             <h3 className="mb-1" style={{ fontSize: '1.25rem', fontWeight: 700 }}>
               {m.title}{" "}
               <Badge bg="info" className="text-dark">{m.genre}</Badge>{" "}
