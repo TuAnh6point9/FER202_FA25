@@ -1,0 +1,33 @@
+/* Navbar.css - Styling cho active link */
+
+.nav-link {
+  color: rgba(255, 255, 255, 0.85) !important;
+  padding: 0.5rem 1rem !important;
+  margin: 0 0.25rem;
+  border-radius: 0.25rem;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white !important;
+}
+
+.active-link {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  color: white !important;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.active-link:hover {
+  background-color: rgba(255, 255, 255, 0.25) !important;
+}
+
+/* Mobile responsive */
+@media (max-width: 991px) {
+  .nav-link {
+    margin: 0.25rem 0;
+  }
+}
