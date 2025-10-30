@@ -99,5 +99,31 @@
       "country": "New Zealand",
       "duration": 141
     }
+  ],
+  "accounts": [
+    {
+      "id": 1,
+      "username": "admin",
+      "email": "admin@example.com",
+      "password": "123456",
+      "role": "admin",
+      "status": "active"
+    },
+    {
+      "id": 2,
+      "username": "manager",
+      "email": "manager@example.com",
+      "password": "123456",
+      "role": "manager",
+      "status": "active"
+    },
+    {
+      "id": 3,
+      "username": "user1",
+      "email": "user1@example.com",
+      "password": "123456",
+      "role": "user",
+      "status": "active"
+    }
   ]
 }

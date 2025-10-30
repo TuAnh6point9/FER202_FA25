@@ -1,19 +1,40 @@
-import logo from './logo.svg';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 import MovieManager from './pages/MovieManager';
+import LoginForm from './components/LoginForm';
+import ProtectedRoute from './components/ProtectedRoute';
+import { AuthProvider } from './contexts/AuthContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (
-    <div className="App">
-      {/* Trong ứng dụng lớn hơn, đây sẽ là nơi bạn đặt Router (ví dụ: React Router DOM)
-        và các thành phần Layout chung (Header, Footer, Sidebar). 
-      */}
-      <MovieManager />
-{/* Nếu bạn có nhiều trang (ví dụ: /home, /about, /movies), 
-        bạn sẽ sử dụng Router ở đây để hiển thị MovieManager khi cần. 
-      */}
-    </div>
+    <Router>
+      <AuthProvider>
+        <div className="App">
+          <Routes>
+            {/* Route mặc định chuyển hướng đến login */}
+            <Route path="/" element={<Navigate to="/login" replace />} />
+            
+            {/* Route login - public */}
+            <Route path="/login" element={<LoginForm />} />
+            
+            {/* Route movies - protected */}
+            <Route 
+              path="/movies" 
+              element={
+                <ProtectedRoute>
+                  <MovieManager />
+                </ProtectedRoute>
+              } 
+            />
+            
+            {/* Route không tồn tại */}
+            <Route path="*" element={<Navigate to="/login" replace />} />
+          </Routes>
+        </div>
+      </AuthProvider>
+    </Router>
   );
 }
 
