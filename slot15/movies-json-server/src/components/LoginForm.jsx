@@ -140,26 +140,65 @@ function LoginForm() {
   };
 
   return (
-    <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
+    <Container 
+      className="d-flex justify-content-center align-items-center" 
+      style={{ 
+        minHeight: '100vh',
+        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        padding: '20px'
+      }}
+    >
       <Row className="w-100">
         <Col md={{ span: 6, offset: 3 }} lg={{ span: 4, offset: 4 }}>
-          <Card className="shadow-lg">
-            <Card.Header className="bg-primary text-white text-center">
-              <h4>🎬 Movie Manager Login</h4>
+          <Card 
+            className="shadow-lg" 
+            style={{
+              borderRadius: '20px',
+              border: 'none',
+              overflow: 'hidden',
+              animation: 'fadeIn 0.5s ease-in'
+            }}
+          >
+            <Card.Header 
+              className="text-white text-center"
+              style={{
+                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                padding: '25px',
+                border: 'none'
+              }}
+            >
+              <h4 style={{ margin: 0, fontSize: '1.8rem', fontWeight: 'bold' }}>
+                🎬 Movie Manager Login
+              </h4>
+              <p style={{ margin: '5px 0 0 0', fontSize: '0.9rem', opacity: 0.9 }}>
+                Sign in to manage your movies
+              </p>
             </Card.Header>
             <Card.Body className="p-4">
               {/* Hiển thị lỗi từ AuthContext */}
               {error && (
-                <Alert variant="danger" dismissible onClose={clearError}>
-                  <Alert.Heading>Login Failed</Alert.Heading>
-                  <p>{error}</p>
+                <Alert 
+                  variant="danger" 
+                  dismissible 
+                  onClose={clearError}
+                  style={{
+                    borderRadius: '12px',
+                    border: 'none',
+                    background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+                    color: 'white'
+                  }}
+                >
+                  <Alert.Heading style={{ fontSize: '1.1rem' }}>❌ Login Failed</Alert.Heading>
+                  <p style={{ margin: 0 }}>{error}</p>
                 </Alert>
               )}
 
               <Form onSubmit={handleSubmit}>
                 {/* Username/Email Field */}
                 <Form.Group className="mb-3">
-                  <Form.Label>Username or Email <span className="text-danger">*</span></Form.Label>
+                  <Form.Label style={{ fontWeight: '600', color: '#667eea' }}>
+                    Username or Email <span className="text-danger">*</span>
+                  </Form.Label>
                   <Form.Control
                     type="text"
                     name="identifier"
@@ -168,6 +207,12 @@ function LoginForm() {
                     onChange={handleChange}
                     isInvalid={!!formState.errors.identifier}
                     disabled={loading}
+                    style={{
+                      borderRadius: '10px',
+                      padding: '12px 15px',
+                      border: '2px solid #e0e0e0',
+                      transition: 'all 0.3s ease'
+                    }}
                   />
                   <Form.Control.Feedback type="invalid">
                     {formState.errors.identifier}
@@ -176,7 +221,9 @@ function LoginForm() {
 
                 {/* Password Field */}
                 <Form.Group className="mb-3">
-                  <Form.Label>Password <span className="text-danger">*</span></Form.Label>
+                  <Form.Label style={{ fontWeight: '600', color: '#667eea' }}>
+                    Password <span className="text-danger">*</span>
+                  </Form.Label>
                   <Form.Control
                     type="password"
                     name="password"
@@ -185,6 +232,12 @@ function LoginForm() {
                     onChange={handleChange}
                     isInvalid={!!formState.errors.password}
                     disabled={loading}
+                    style={{
+                      borderRadius: '10px',
+                      padding: '12px 15px',
+                      border: '2px solid #e0e0e0',
+                      transition: 'all 0.3s ease'
+                    }}
                   />
                   <Form.Control.Feedback type="invalid">
                     {formState.errors.password}
@@ -192,12 +245,31 @@ function LoginForm() {
                 </Form.Group>
 
                 {/* Buttons */}
-                <div className="d-flex gap-2">
+                <div className="d-flex gap-2 mt-4">
                   <Button 
-                    variant="primary" 
                     type="submit" 
                     className="flex-grow-1"
                     disabled={loading}
+                    style={{
+                      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                      border: 'none',
+                      borderRadius: '10px',
+                      padding: '12px 20px',
+                      fontWeight: '600',
+                      fontSize: '1rem',
+                      transition: 'all 0.3s ease',
+                      boxShadow: '0 4px 15px rgba(102, 126, 234, 0.4)'
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!loading) {
+                        e.target.style.transform = 'translateY(-2px)';
+                        e.target.style.boxShadow = '0 6px 20px rgba(102, 126, 234, 0.6)';
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.transform = 'translateY(0)';
+                      e.target.style.boxShadow = '0 4px 15px rgba(102, 126, 234, 0.4)';
+                    }}
                   >
                     {loading ? (
                       <>
@@ -212,26 +284,50 @@ function LoginForm() {
                         Logging in...
                       </>
                     ) : (
-                      'Login'
+                      '🔐 Login'
                     )}
                   </Button>
                   <Button 
-                    variant="secondary" 
                     type="button" 
                     onClick={handleReset}
                     disabled={loading}
+                    style={{
+                      background: 'linear-gradient(135deg, #868f96 0%, #596164 100%)',
+                      border: 'none',
+                      borderRadius: '10px',
+                      padding: '12px 20px',
+                      fontWeight: '600',
+                      transition: 'all 0.3s ease'
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!loading) {
+                        e.target.style.transform = 'translateY(-2px)';
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.transform = 'translateY(0)';
+                    }}
                   >
-                    Reset
+                    🔄 Reset
                   </Button>
                 </div>
               </Form>
             </Card.Body>
-            <Card.Footer className="text-muted text-center">
-              <small><strong>Test Accounts:</strong></small><br />
-              <small>
-                Admin: admin / 123456<br />
-                Manager: manager / 123456<br />
-                User: user1 / 123456
+            <Card.Footer 
+              className="text-center"
+              style={{
+                background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
+                padding: '20px',
+                border: 'none'
+              }}
+            >
+              <small style={{ fontWeight: '600', color: '#667eea' }}>
+                💡 Test Accounts:
+              </small><br />
+              <small style={{ color: '#555', lineHeight: '1.8' }}>
+                <strong>Admin:</strong> admin / 123456<br />
+                <strong>Manager:</strong> manager / 123456<br />
+                <strong>User:</strong> user1 / 123456
               </small>
             </Card.Footer>
           </Card>

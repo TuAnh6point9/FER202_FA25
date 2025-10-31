@@ -7,7 +7,11 @@ export const initialMovieState = {
   currentMovie: { avatar: '', title: '', description: '', genreId: '', duration: '', year: '', country: '' },
   showEditModal: false,   
   showDeleteModal: false, 
-  movieToDelete: null     
+  movieToDelete: null,
+  showDetailModal: false,
+  movieDetail: null,
+  searchQuery: '',
+  searchField: 'all'
 };
 
 export const movieReducer = (state, action) => {
@@ -57,6 +61,20 @@ export const movieReducer = (state, action) => {
             movieToDelete: null,
             showDeleteModal: false 
         };
+
+    case 'OPEN_DETAIL_MODAL':
+        return {
+            ...state,
+            movieDetail: action.payload,
+            showDetailModal: true
+        };
+
+    case 'CLOSE_DETAIL_MODAL':
+        return {
+            ...state,
+            movieDetail: null,
+            showDetailModal: false
+        };
       
     case 'RESET_FORM':
       return { 
@@ -64,6 +82,18 @@ export const movieReducer = (state, action) => {
         currentMovie: initialMovieState.currentMovie, 
         isEditing: null,
         showEditModal: false,
+      };
+
+    case 'SET_SEARCH_QUERY':
+      return {
+        ...state,
+        searchQuery: action.payload
+      };
+
+    case 'SET_SEARCH_FIELD':
+      return {
+        ...state,
+        searchField: action.payload
       };
 
     default:

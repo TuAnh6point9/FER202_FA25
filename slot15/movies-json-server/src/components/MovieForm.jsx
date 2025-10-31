@@ -300,26 +300,83 @@ const MovieForm = () => {
 
   return (
     <>
-      {/* FORM THÊM MỚI (Luôn hiển thị) */}
-      <Container className="p-3 mb-4 border">
-        <h3 className="mb-3">📽️ Thêm Phim Mới</h3>
+      {/* FORM THÊM MỚI với Style đẹp */}
+      <div style={{
+        background: 'white',
+        borderRadius: '20px',
+        padding: '2.5rem',
+        boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
+        border: '2px solid rgba(102, 126, 234, 0.1)',
+        marginBottom: '3rem'
+      }}>
+        <h3 style={{
+          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          fontWeight: '800',
+          fontSize: '1.8rem',
+          marginBottom: '0.5rem'
+        }}>
+          ➕ Thêm Phim Mới
+        </h3>
+        <div style={{
+          height: '3px',
+          background: 'linear-gradient(90deg, #667eea 0%, #764ba2 100%)',
+          borderRadius: '3px',
+          marginBottom: '2rem',
+          width: '80px'
+        }}></div>
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
             <MovieFields {...createFormProps} />
-            <div className="d-flex gap-2 mt-3">
-                <Button variant="success" type="submit">
-                ➕ Thêm Phim
+            <div className="d-flex gap-2 mt-4">
+                <Button 
+                  type="submit"
+                  style={{
+                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                    border: 'none',
+                    borderRadius: '12px',
+                    padding: '0.8rem 2.5rem',
+                    fontWeight: '700',
+                    fontSize: '1.05rem',
+                    boxShadow: '0 5px 15px rgba(102, 126, 234, 0.4)',
+                    transition: 'all 0.3s ease'
+                  }}
+                >
+                  ➕ Thêm Phim Mới
                 </Button>
             </div>
         </Form>
-      </Container>
+      </div>
       
-      {/* MODAL CHỈNH SỬA (Chỉ hiện khi showEditModal là true) */}
-      <Modal show={showEditModal} onHide={handleCloseEditModal} size="lg">
-        <Modal.Header closeButton>
-            <Modal.Title>Chỉnh sửa Phim ID: {isEditing}</Modal.Title>
+      {/* MODAL CHỈNH SỬA với Style đẹp */}
+      <Modal 
+        show={showEditModal} 
+        onHide={handleCloseEditModal} 
+        size="lg"
+        centered
+      >
+        <Modal.Header 
+          closeButton
+          style={{
+            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            color: 'white',
+            borderBottom: 'none',
+            padding: '1.5rem'
+          }}
+        >
+          <Modal.Title style={{
+            fontSize: '1.6rem',
+            fontWeight: '700',
+            textShadow: '2px 2px 4px rgba(0,0,0,0.3)'
+          }}>
+            ✏️ Chỉnh sửa Phim ID: {isEditing}
+          </Modal.Title>
         </Modal.Header>
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
-            <Modal.Body>
+            <Modal.Body style={{
+              padding: '2rem',
+              background: 'linear-gradient(to bottom, #f8f9fa 0%, #ffffff 100%)'
+            }}>
                 <MovieFields 
                     currentMovie={currentMovie} 
                     handleInputChange={handleInputChange}
@@ -330,9 +387,38 @@ const MovieForm = () => {
                     validated={validated}
                 />
             </Modal.Body>
-            <Modal.Footer>
-                <Button variant="secondary" onClick={handleCloseEditModal}>Hủy</Button>
-                <Button variant="warning" type="submit">Lưu Thay Đổi</Button>
+            <Modal.Footer style={{
+              background: 'linear-gradient(to right, #f8f9fa 0%, #e9ecef 100%)',
+              borderTop: '1px solid rgba(102, 126, 234, 0.2)',
+              padding: '1.5rem'
+            }}>
+                <Button 
+                  variant="light"
+                  onClick={handleCloseEditModal}
+                  style={{
+                    borderRadius: '25px',
+                    padding: '0.6rem 2rem',
+                    fontWeight: '600',
+                    border: '2px solid #6c757d',
+                    transition: 'all 0.3s ease'
+                  }}
+                >
+                  Hủy
+                </Button>
+                <Button 
+                  type="submit"
+                  style={{
+                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                    border: 'none',
+                    borderRadius: '25px',
+                    padding: '0.6rem 2rem',
+                    fontWeight: '600',
+                    boxShadow: '0 5px 15px rgba(102, 126, 234, 0.4)',
+                    transition: 'all 0.3s ease'
+                  }}
+                >
+                  💾 Lưu Thay Đổi
+                </Button>
             </Modal.Footer>
         </Form>
       </Modal>
