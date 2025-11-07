@@ -35,12 +35,25 @@ const PaymentTable = ({ onViewDetails, onEdit }) => {
         setSelectedPaymentId(null);
     };
 
-    // Format currency
+    // Format currency VND
     const formatCurrency = (amount) => {
-        return new Intl.NumberFormat('en-US', {
+        return new Intl.NumberFormat('vi-VN', {
             style: 'currency',
-            currency: 'USD'
+            currency: 'VND'
         }).format(amount);
+    };
+
+    // Tính tổng tiền từ tất cả payments
+    const totalAmount = payments.reduce((sum, payment) => sum + payment.amount, 0);
+
+    // Format date theo định dạng Việt Nam (dd/mm/yyyy)
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('vi-VN', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+        });
     };
 
     // Render loading state
@@ -101,7 +114,7 @@ const PaymentTable = ({ onViewDetails, onEdit }) => {
                                     {payment.status || 'N/A'}
                                 </Badge>
                             </td>
-                            <td>{new Date(payment.date).toLocaleDateString()}</td>
+                            <td>{formatDate(payment.date)}</td>
                             <td className="text-center">
                                 <Button
                                     variant="info"
@@ -133,6 +146,19 @@ const PaymentTable = ({ onViewDetails, onEdit }) => {
                         </tr>
                     ))}
                 </tbody>
+                <tfoot className="table-light">
+                    <tr>
+                        <td colSpan="3" className="text-end fw-bold fs-5">
+                            💰 TỔNG TIỀN:
+                        </td>
+                        <td className="fw-bold text-primary fs-5">
+                            {formatCurrency(totalAmount)}
+                        </td>
+                        <td colSpan="3" className="text-center text-muted">
+                            <small>Tổng: {payments.length} giao dịch</small>
+                        </td>
+                    </tr>
+                </tfoot>
             </Table>
 
             {/* Confirm Delete Modal */}

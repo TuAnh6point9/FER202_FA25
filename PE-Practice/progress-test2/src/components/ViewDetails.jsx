@@ -13,12 +13,13 @@ const ViewDetails = ({ show, payment, onHide }) => {
         }).format(amount);
     };
 
-    // Format date
+    // Format date theo định dạng Việt Nam
     const formatDate = (dateString) => {
-        return new Date(dateString).toLocaleDateString('en-US', {
+        return new Date(dateString).toLocaleDateString('vi-VN', {
+            day: '2-digit',
+            month: '2-digit',
             year: 'numeric',
-            month: 'long',
-            day: 'numeric'
+            weekday: 'long'
         });
     };
 
