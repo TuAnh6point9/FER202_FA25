@@ -1,34 +1,37 @@
 // PaymentsPage.jsx - Trang chính quản lý payments
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Card, Button, Row, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { FaPlus } from 'react-icons/fa';
 import NavigationHeader from './NavigationHeader';
 import PaymentTable from '../components/PaymentTable';
 import ViewDetails from '../components/ViewDetails';
-import useSessionCheck from '../hooks/useSessionCheck'; // YÊU CẦU MỚI: Import session check
-import { usePayment } from '../contexts/PaymentContext';
+import useSessionCheck from '../hooks/useSessionCheck';
+import { fetchPayments, selectPayment, selectSelectedPayment } from '../redux/slices/paymentSlice';
 
 const PaymentsPage = () => {
-    // YÊU CẦU MỚI: Kiểm tra session - nếu bị ban sẽ tự động logout
     useSessionCheck();
     
     const navigate = useNavigate();
-    const { selectPayment } = usePayment();
+    const dispatch = useDispatch();
+    const selectedPayment = useSelector(selectSelectedPayment);
     const [showDetails, setShowDetails] = useState(false);
-    const [selectedPayment, setSelectedPayment] = useState(null);
+
+    // Fetch payments khi component mount
+    useEffect(() => {
+        dispatch(fetchPayments());
+    }, [dispatch]);
 
     // Handle view details
     const handleViewDetails = (payment) => {
-        setSelectedPayment(payment);
-        selectPayment(payment);
+        dispatch(selectPayment(payment));
         setShowDetails(true);
     };
 
     // Handle close details modal
     const handleCloseDetails = () => {
         setShowDetails(false);
-        setSelectedPayment(null);
     };
 
     // Handle edit payment

@@ -2,7 +2,8 @@
 import React, { useReducer } from 'react';
 import { Form, Button, Card, Container, Row, Col, Alert, Spinner } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { usePayment } from '../contexts/PaymentContext';
+import { useDispatch } from 'react-redux';
+import { addPayment } from '../redux/slices/paymentSlice';
 
 // Initial form state
 const initialFormState = {
@@ -65,7 +66,7 @@ function formReducer(state, action) {
 
 const AddPayment = () => {
     const [state, dispatch] = useReducer(formReducer, initialFormState);
-    const { addPayment } = usePayment();
+    const reduxDispatch = useDispatch();
     const navigate = useNavigate();
 
     // Validate form
@@ -117,15 +118,14 @@ const AddPayment = () => {
             amount: parseFloat(state.formData.amount),
         };
 
-        const result = await addPayment(paymentData);
-
-        dispatch({ type: 'SET_SUBMITTING', value: false });
-
-        if (result.success) {
+        try {
+            await reduxDispatch(addPayment(paymentData)).unwrap();
             alert('Payment added successfully!');
-            navigate('/payments'); // Navigate to payments list page
-        } else {
-            alert('Failed to add payment: ' + result.error);
+            navigate('/payments');
+        } catch (error) {
+            alert('Failed to add payment: ' + error);
+        } finally {
+            dispatch({ type: 'SET_SUBMITTING', value: false });
         }
     };
 

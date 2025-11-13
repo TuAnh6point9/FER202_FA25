@@ -1,7 +1,8 @@
 // UserTable.jsx - Component hiển thị danh sách users dưới dạng bảng
 import React from 'react';
 import { Table, Button, Badge } from 'react-bootstrap';
-import { useAuth } from '../contexts/AuthContext';
+import { useSelector } from 'react-redux';
+import { selectUser } from '../redux/slices/authSlice';
 
 /**
  * Component UserTable
@@ -28,7 +29,7 @@ import { useAuth } from '../contexts/AuthContext';
  * - onBanUser: Hàm xử lý khi click "Ban Account" hoặc "Unban Account"
  */
 const UserTable = ({ users, onViewDetails, onBanUser }) => {
-    const { user: currentUser } = useAuth(); // Lấy thông tin user đang logged in
+    const currentUser = useSelector(selectUser); // Lấy thông tin user đang logged in
 
     // Hàm hiển thị Badge cho Role với adminLevel
     const getRoleBadge = (role, adminLevel) => {

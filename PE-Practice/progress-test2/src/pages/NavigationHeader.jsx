@@ -1,17 +1,19 @@
 // NavigationHeader.jsx là component thanh điều hướng chung chứa thông tin đăng nhập và nút Logout
 import React from 'react';
 import { Navbar, Nav, Button, Container } from 'react-bootstrap';
-import { useAuth } from '../contexts/AuthContext.jsx';
+import { useDispatch, useSelector } from 'react-redux';
+import { logoutUser, selectUser } from '../redux/slices/authSlice';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 const NavigationHeader = () => {
-    const { user, logout } = useAuth();
+    const dispatch = useDispatch();
+    const user = useSelector(selectUser);
     const navigate = useNavigate();
     const location = useLocation();
     const fullName = user?.fullName || user?.username || 'Student';
 
     const handleLogout = () => {
-        logout();
+        dispatch(logoutUser());
         navigate('/login');
     };
 

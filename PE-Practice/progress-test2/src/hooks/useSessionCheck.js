@@ -1,7 +1,8 @@
 // useSessionCheck.js - Custom hook để kiểm tra session của user
 // Kiểm tra định kỳ xem user có bị ban trong khi đang logged in không
 import { useEffect, useRef } from 'react';
-import { useAuth } from '../contexts/AuthContext';
+import { useDispatch, useSelector } from 'react-redux';
+import { logoutUser, selectUser } from '../redux/slices/authSlice';
 import * as api from '../services/api';
 
 /**
@@ -21,7 +22,8 @@ import * as api from '../services/api';
  * - VD: DashboardPage, PaymentsPage, UserListPage
  */
 const useSessionCheck = () => {
-    const { user, logout } = useAuth();
+    const dispatch = useDispatch();
+    const user = useSelector(selectUser);
     const checkIntervalRef = useRef(null);
     const logoutTimeoutRef = useRef(null);
 
@@ -51,7 +53,7 @@ const useSessionCheck = () => {
 
                     // Tự động logout sau 3 giây
                     logoutTimeoutRef.current = setTimeout(() => {
-                        logout();
+                        dispatch(logoutUser());
                         // Reload page để đảm bảo state được clear hoàn toàn
                         window.location.href = '/login';
                     }, 3000);
@@ -70,7 +72,7 @@ const useSessionCheck = () => {
                 alert('⚠️ Phiên đăng nhập không hợp lệ. Vui lòng đăng nhập lại.');
                 
                 logoutTimeoutRef.current = setTimeout(() => {
-                    logout();
+                    dispatch(logoutUser());
                     window.location.href = '/login';
                 }, 2000);
             }
@@ -91,7 +93,7 @@ const useSessionCheck = () => {
                 clearTimeout(logoutTimeoutRef.current);
             }
         };
-    }, [user, logout]);
+    }, [user, dispatch]);
 };
 
 export default useSessionCheck;

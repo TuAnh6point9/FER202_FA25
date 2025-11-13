@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Card, Row, Col, Table, Spinner, Alert, Form } from 'react-bootstrap'; 
 import NavigationHeader from './NavigationHeader';
-import { useAuth } from '../contexts/AuthContext';
-import useSessionCheck from '../hooks/useSessionCheck'; // YÊU CẦU MỚI: Import session check
+import { useSelector } from 'react-redux';
+import { selectUser } from '../redux/slices/authSlice';
+import useSessionCheck from '../hooks/useSessionCheck';
 import * as api from '../services/api';
 
 const DashboardPage = () => {
-    const { user } = useAuth();
+    const user = useSelector(selectUser);
     
     // YÊU CẦU MỚI: Kiểm tra session - nếu bị ban sẽ tự động logout
     useSessionCheck();

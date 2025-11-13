@@ -1,8 +1,9 @@
 import React, { useReducer } from 'react';
 import { Form, Button, Card, Container, Row, Col, Alert, Spinner } from 'react-bootstrap';
-import { useAuth } from '../contexts/AuthContext';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginUser, clearError, selectAuth } from '../redux/slices/authSlice';
 import ConfirmModal from './ConfirmModal';
-import { useNavigate } from 'react-router-dom'; // Thêm useNavigate để chuyển hướng
+import { useNavigate } from 'react-router-dom';
 
 // 1. Khởi tạo trạng thái ban đầu cho form
 
@@ -63,13 +64,14 @@ function formReducer(state, action) {
 }
 
 function LoginForm() {
-  const navigate = useNavigate(); // Sử dụng useNavigate
+  const navigate = useNavigate();
+  const reduxDispatch = useDispatch();
 
   // 3. Sử dụng useReducer cho form state
   const [formState, dispatch] = useReducer(formReducer, initialFormState);
 
-  // 4. Sử dụng AuthContext (Giả định AuthContext đã cung cấp đủ các giá trị này)
-  const { login, loading, error, clearError, user } = useAuth();
+  // 4. Lấy auth state từ Redux store
+  const { isLoading, error, user } = useSelector(selectAuth);
 
   // 5. Validation helpers
   const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -82,8 +84,8 @@ function LoginForm() {
     // Cập nhật giá trị field (SỬ DỤNG action SET_FIELD đã sửa)
     dispatch({ type: 'SET_FIELD', field: name, value });
 
-    // Clear auth error khi user nhập (Giả định clearError tồn tại trong useAuth)
-    if (error) clearError();
+    // Clear auth error khi user nhập
+    if (error) reduxDispatch(clearError());
 
     // Validation real-time
     let message = '';
@@ -133,7 +135,7 @@ function LoginForm() {
   // 8. Xử lý submit form
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (error) clearError(); // Clear error trước khi submit lại
+    if (error) reduxDispatch(clearError());
 
     // Validate form
     const validationErrors = validateForm();
@@ -144,20 +146,16 @@ function LoginForm() {
     }
 
     try {
-      // Gọi login từ AuthContext
-      const result = await login({ // SỬA LỖI: login cần nhận object {usernameOrEmail, password}
+      // Dispatch loginUser async thunk
+      const result = await reduxDispatch(loginUser({
         usernameOrEmail: formState.formData.identifier.trim(), 
         password: formState.formData.password,
-      });
+      })).unwrap(); // unwrap() để lấy kết quả hoặc throw error
 
-      // result.success là cách logic tốt hơn để kiểm tra thành công
-      if (result && result.success) { 
-        // Hiển thị modal thành công
-        dispatch({ type: 'SHOW_SUCCESS_MODAL' });
-      }
-     // Lỗi sẽ được xử lý và hiển thị qua AuthContext error (như "Invalid username/email or password!"[cite: 16])
+      // Nếu thành công, hiển thị modal
+      dispatch({ type: 'SHOW_SUCCESS_MODAL' });
     } catch (err) {
-      // Lỗi mạng hoặc lỗi không xác định
+      // Lỗi đã được xử lý trong authSlice và lưu vào state.error
       console.error('Login error:', err);
     }
   };
@@ -165,8 +163,8 @@ function LoginForm() {
     const handleReset = () => { 
     //1. Reset form state về ban đầu
     dispatch({ type: 'RESET_FORM' });
-    //2. Xóa lỗi từ AuthContext nếu có
-    if (error) clearError();
+    //2. Xóa lỗi từ Redux store nếu có
+    if (error) reduxDispatch(clearError());
   };
 
   // 10. Xử lý đóng modal thành công
@@ -186,9 +184,9 @@ function LoginForm() {
               <h3 className="text-center mb-0">Login</h3>
             </Card.Header>
             <Card.Body>
-              {/* Hiển thị lỗi từ AuthContext ("Invalid username/email or password!")*/}
+              {/* Hiển thị lỗi từ Redux store */}
               {error && (
-                <Alert variant="danger" className="mb-3" onClose={clearError} dismissible>
+                <Alert variant="danger" className="mb-3" onClose={() => reduxDispatch(clearError())} dismissible>
                   {error}
                 </Alert>
               )}
@@ -204,7 +202,7 @@ function LoginForm() {
                     onChange={handleChange}
                     isInvalid={!!formState.errors.identifier}
                     placeholder="Enter username or email"
-                    disabled={loading}
+                    disabled={isLoading}
                   />
                   {/* Form.Control.Feedback: Hiển thị lỗi validation */}
                   <Form.Control.Feedback type="invalid">
@@ -222,7 +220,7 @@ function LoginForm() {
                     onChange={handleChange}
                     isInvalid={!!formState.errors.password}
                     placeholder="Enter password"
-                    disabled={loading}
+                    disabled={isLoading}
                   />
                   {/* Form.Control.Feedback: Hiển thị lỗi validation */}
                   <Form.Control.Feedback type="invalid">
@@ -235,9 +233,9 @@ function LoginForm() {
                     variant="primary" 
                     type="submit" 
                     style={{ flex: 1 }}
-                    disabled={loading}
+                    disabled={isLoading}
                   >
-                    {loading ? (
+                    {isLoading ? (
                       <>
                         <Spinner size="sm" animation="border" role="status" className="me-2" />
                         Logging in...
@@ -251,7 +249,7 @@ function LoginForm() {
                     type="button" 
                     style={{ flex: 1 }}
                     onClick={handleReset}
-                    disabled={loading}
+                    disabled={isLoading}
                   >
                     Cancel
                   </Button>

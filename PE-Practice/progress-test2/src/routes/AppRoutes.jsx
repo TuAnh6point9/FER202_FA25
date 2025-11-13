@@ -1,7 +1,8 @@
 //AppRoutes.js định nghĩa các route cho ứng dụng sử dụng React Router
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext.jsx'; // Import useAuth
+import { useSelector } from 'react-redux';
+import { selectIsAuthenticated } from '../redux/slices/authSlice';
 import LoginPage from '../components/LoginPage';
 import DashboardPage from '../pages/DashboardPage';
 import PaymentsPage from '../pages/PaymentsPage';
@@ -10,8 +11,8 @@ import UserListPage from '../pages/UserListPage'; // YÊU CẦU MỚI: Import Us
 
 // Component để bảo vệ các route cần xác thực
 const PrivateRoute = ({ children }) => {
-    // Lấy trực tiếp isAuthenticated từ useAuth()
-    const { isAuthenticated } = useAuth(); 
+    // Lấy trực tiếp isAuthenticated từ Redux store
+    const isAuthenticated = useSelector(selectIsAuthenticated); 
     
     // Nếu chưa đăng nhập, chuyển hướng đến /login
     return isAuthenticated ? children : <Navigate to="/login" />;

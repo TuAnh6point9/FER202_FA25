@@ -2,11 +2,16 @@
 import React, { useState } from 'react';
 import { Table, Button, Spinner, Alert, Badge } from 'react-bootstrap';
 import { FaEye, FaEdit, FaTrash } from 'react-icons/fa';
-import { usePayment } from '../contexts/PaymentContext';
+import { useDispatch, useSelector } from 'react-redux';
+import { deletePayment, selectPayments, selectPaymentLoading, selectPaymentError } from '../redux/slices/paymentSlice';
 import ConfirmModal from './ConfirmModal';
 
 const PaymentTable = ({ onViewDetails, onEdit }) => {
-    const { payments, loading, error, deletePayment } = usePayment();
+    const dispatch = useDispatch();
+    const payments = useSelector(selectPayments);
+    const loading = useSelector(selectPaymentLoading);
+    const error = useSelector(selectPaymentError);
+    
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [selectedPaymentId, setSelectedPaymentId] = useState(null);
     const [deleteLoading, setDeleteLoading] = useState(false);
@@ -19,14 +24,14 @@ const PaymentTable = ({ onViewDetails, onEdit }) => {
 
     const handleConfirmDelete = async () => {
         setDeleteLoading(true);
-        const result = await deletePayment(selectedPaymentId);
-        setDeleteLoading(false);
-        
-        if (result.success) {
+        try {
+            await dispatch(deletePayment(selectedPaymentId)).unwrap();
             setShowDeleteModal(false);
             setSelectedPaymentId(null);
-        } else {
-            alert('Failed to delete payment: ' + result.error);
+        } catch (err) {
+            alert('Failed to delete payment: ' + err);
+        } finally {
+            setDeleteLoading(false);
         }
     };
 

@@ -9,27 +9,8 @@ import ConfirmModal from '../components/ConfirmModal';
 import useSessionCheck from '../hooks/useSessionCheck'; // Import custom hook
 import * as api from '../services/api';
 
-/**
- * Component UserListPage
- * 
- * Trang chính quản lý Users, bao gồm:
- * 1. UserFilter: Tìm kiếm, lọc và sắp xếp users
- * 2. UserTable: Hiển thị danh sách users
- * 3. UserDetailsModal: Hiển thị chi tiết user
- * 4. ConfirmModal: Xác nhận khi Ban/Unban account
- * 5. Session Check: Kiểm tra định kỳ xem user có bị ban không
- * 
- * Chức năng:
- * - Tìm kiếm users theo username hoặc fullName
- * - Lọc users theo role và status
- * - Sắp xếp users theo các tiêu chí
- * - View Details: Xem thông tin chi tiết user
- * - Ban/Unban Account: Khóa/Mở khóa tài khoản
- * - RULES MỚI:
- *   + Admin không thể ban chính mình
- *   + Admin có hierarchy theo adminLevel
- *   + Nếu bị ban trong khi đang logged in → Auto logout
- */
+
+
 const UserListPage = () => {
     // YÊU CẦU MỚI: Kiểm tra session - nếu bị ban sẽ tự động logout
     useSessionCheck();
