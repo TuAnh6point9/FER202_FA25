@@ -5,15 +5,12 @@
       "username": "anhnv",
       "password": "admin123",
       "fullName": "Nguyễn Văn Anh"
-
-            
     },
     {
       "id": "2",
       "username": "TamNT",
       "password": "admin123",
       "fullName": "Nguyễn Thị Tâm"
-
     }
   ],
   "expenses": [

@@ -13,6 +13,7 @@ export default function HomePage() {
   const expenses = useSelector((s) => s.expenses.list);
 
   const [filter, setFilter] = useState("");
+  const [editingExpense, setEditingExpense] = useState(null);
 
   useEffect(() => {
     if (user) dispatch(fetchExpenses(user.id));
@@ -31,9 +32,9 @@ export default function HomePage() {
 
         <FilterBox filter={filter} setFilter={setFilter} />
 
-        <ExpenseForm userId={user.id} />
+        <ExpenseForm userId={user.id} editingExpense={editingExpense} setEditingExpense={setEditingExpense} />
 
-        <ExpenseTable expenses={expenses} filter={filter} />
+        <ExpenseTable expenses={expenses} filter={filter} setEditingExpense={setEditingExpense} />
       </div>
 
       <Footer />
