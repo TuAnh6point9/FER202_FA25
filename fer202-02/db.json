@@ -15,14 +15,6 @@
   ],
   "expenses": [
     {
-      "id": "1",
-      "userId": "1",
-      "name": "Lunch",
-      "amount": "85000",
-      "category": "Food",
-      "date": "2025-10-02"
-    },
-    {
       "id": "2",
       "userId": "1",
       "name": "Electricity Bill",
